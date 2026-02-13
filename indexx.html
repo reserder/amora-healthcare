@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amora Healthcare | Enterprise RCM & Medical Billing</title>
+    <meta name="description" content="Premium offshore RCM for US Medical Groups. Audit-proof coding, 3% collections model, and HIPAA-compliant infrastructure.">
+    
+    <!-- Google Fonts: Plus Jakarta Sans for a modern tech feel + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#020617', // Slate 950
+                            dark: '#0f172a',  // Slate 900
+                            gray: '#64748b',  // Slate 500
+                            light: '#94a3b8', // Slate 400
+                            accent: '#3b82f6', // Blue 500
+                            accentDark: '#2563eb', // Blue 600
+                            surface: '#f8fafc', // Slate 50
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
+                        'glow': '0 0 40px rgba(59, 130, 246, 0.15)',
+                        'card': '0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04)'
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #f1f5f9 1px, transparent 1px), linear-gradient(to bottom, #f1f5f9 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-feature-settings: "cv11", "ss01"; }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #0f172a, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Glassmorphism Card Style */
+        .bento-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        [x-cloak] { display: none !important; }
+        
+        /* Markdown-like output styling */
+        .ai-output p { margin-bottom: 0.75rem; }
+        .ai-output ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+        .ai-output strong { font-weight: 600; color: #0f172a; }
+    </style>
+</head>
+<body class="font-sans text-brand-dark antialiased selection:bg-brand-accent selection:text-white overflow-x-hidden relative bg-slate-50" x-data="{ modalOpen: false, caseStudyOpen: false, cookieConsent: true }">
+
+    <!-- Premium Gradient Background -->
+    <div class="fixed inset-0 -z-20 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+        <!-- Subtle mesh gradients -->
+        <div class="absolute left-0 top-0 -z-10 h-full w-full bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 opacity-80"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-blob"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-indigo-100 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-teal-50 rounded-full mix-blend-multiply filter blur-[80px] opacity-60 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300" x-data="{ mobileMenuOpen: false }">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between gap-8">
+            <!-- Logo -->
+            <a href="#" class="group min-w-max">
+                <span class="font-display font-extrabold text-2xl tracking-tight text-brand-black">
+                    Amora<span class="font-medium text-brand-gray group-hover:text-brand-accent transition-colors">Healthcare</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-gray">
+                <a href="#expertise" class="hover:text-brand-black transition-colors relative group">
+                    Expertise
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#services" class="hover:text-brand-black transition-colors relative group">
+                    Services
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#compliance" class="hover:text-brand-black transition-colors relative group">
+                    Compliance
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all group-hover:w-full"></span>
+                </a>
+                <button @click="modalOpen = true" class="text-brand-black hover:text-brand-accent transition-colors">Contact</button>
+                <button @click="modalOpen = true" class="bg-brand-black text-white px-6 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-semibold shadow-lg shadow-brand-black/20 hover:shadow-brand-black/30 hover:-translate-y-0.5">
+                    Book Discovery Call
+                </button>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-brand-black focus:outline-none p-2">
+                <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div x-show="mobileMenuOpen" x-collapse x-cloak class="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 absolute w-full shadow-2xl">
+            <div class="flex flex-col p-6 space-y-4">
+                <a href="#expertise" @click="mobileMenuOpen = false" class="text-brand-dark font-medium text-lg">Expertise</a>
+                <a href="#services" @click="mobileMenuOpen = false" class="text-brand-dark font-medium text-lg">Services</a>
+                <a href="#compliance" @click="mobileMenuOpen = false" class="text-brand-dark font-medium text-lg">Compliance</a>
+                <button @click="modalOpen = true; mobileMenuOpen = false" class="bg-brand-accent text-white py-4 rounded-xl w-full font-semibold shadow-lg">Book Discovery Call</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Noise overlay for texture -->
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-5xl mx-auto text-center">
+                
+                <!-- Updated Header Pills Area -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8" data-aos="fade-down">
+                    <!-- Existing Onboarding Badge -->
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 border border-white/60 text-brand-dark text-xs font-semibold uppercase tracking-wide shadow-sm backdrop-blur-md">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        Onboarding New Practices
+                    </div>
+
+                    <!-- New Enticing AI Button -->
+                    <a href="#ai-tools" class="group inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wide shadow-sm hover:shadow-md hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer">
+                        <i class="fa-solid fa-wand-magic-sparkles text-blue-500 group-hover:text-white transition-colors group-hover:rotate-12"></i>
+                        <span>Try Gemini AI Coding</span>
+                        <i class="fa-solid fa-arrow-right opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></i>
+                    </a>
+                </div>
+                
+                <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-brand-black leading-[1] mb-8 tracking-tight" data-aos="fade-up" data-aos-delay="100">
+                    The Financial <br>
+                    <span class="text-gradient">Operating System</span> <br>
+                    for US Healthcare.
+                </h1>
+                
+                <p class="text-xl text-brand-gray mb-12 max-w-2xl mx-auto leading-relaxed font-light" data-aos="fade-up" data-aos-delay="200">
+                    Enterprise-grade billing, coding, and revenue cycle management. We help medical groups scale by turning complex claims into consistent cash flow.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-aos="fade-up" data-aos-delay="300">
+                    <button @click="modalOpen = true" class="w-full sm:w-auto bg-brand-black hover:bg-gray-800 text-white font-semibold py-4 px-10 rounded-full shadow-xl shadow-brand-black/20 transition-all transform hover:-translate-y-1">
+                        Book a Discovery Call
+                    </button>
+                    <button @click="caseStudyOpen = true" class="w-full sm:w-auto bg-white/60 backdrop-blur-md hover:bg-white text-brand-dark border border-white/50 font-semibold py-4 px-10 rounded-full transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play text-xs p-1.5 bg-blue-50 text-brand-accent rounded-full"></i> See Our Impact
+                    </button>
+                </div>
+
+                <!-- Scrolling Ticker -->
+                <div class="mt-20 pt-10 border-t border-gray-200/30" data-aos="fade-in" data-aos-delay="400">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-6">Trusted by Specialists In</p>
+                    <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-brand-gray font-medium text-sm">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-brand-light"></i> Cardiology</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-brain text-brand-light"></i> Neurology</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-bone text-brand-light"></i> Orthopedics</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-user-doctor text-brand-light"></i> Internal Medicine</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-lungs text-brand-light"></i> Critical Care</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Section (Why Us) -->
+    <section class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-brand-black mb-4">Why Top Practices Switch to Amora</h2>
+                <p class="text-brand-gray text-lg">We combine clinical expertise with offshore economics to deliver a superior RCM experience.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 grid-rows-2 gap-6 h-auto lg:h-[600px]">
+                
+                <!-- Main Feature -->
+                <div class="md:col-span-2 lg:col-span-2 row-span-2 bento-card rounded-3xl p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden group" data-aos="fade-up">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-100 transition-colors"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-brand-black text-white rounded-2xl flex items-center justify-center text-2xl mb-8 shadow-xl">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="font-display text-3xl font-bold text-brand-black mb-4">Precision Accuracy</h3>
+                        <p class="text-brand-gray text-lg leading-relaxed mb-8">
+                            Volume-based billing creates denials. We use a "Human-in-the-Loop" approach where certified coders review every chart for specificity, modifiers, and bundling rules.
+                        </p>
+                    </div>
+                    <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-sm">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-gray-500 font-medium text-sm">Clean Claim Rate</span>
+                            <span class="text-brand-accent font-bold text-3xl">93.8%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-brand-accent h-2 rounded-full" style="width: 93.8%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="md:col-span-1 lg:col-span-2 bento-card rounded-3xl p-8 flex flex-col justify-center relative overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/40 to-blue-50/40 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-globe text-brand-accent text-3xl mb-4"></i>
+                        <h3 class="font-display text-xl font-bold text-brand-black mb-2">24/7 Processing Cycle</h3>
+                        <p class="text-brand-gray text-sm">We work while you sleep. Charts uploaded by 5 PM EST are often coded and ready for review by 8 AM the next morning.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="md:col-span-1 lg:col-span-1 bento-card rounded-3xl p-8 flex flex-col justify-center text-center group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-blue-50 text-brand-accent rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                        <i class="fa-solid fa-plug"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-brand-black mb-2">EHR Agnostic</h3>
+                    <p class="text-brand-gray text-xs">Epic, Cerner, Athena, Kareo, eCW. We integrate with them all.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="md:col-span-1 lg:col-span-1 bento-card rounded-3xl p-8 flex flex-col justify-center text-center group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-brand-black mb-2">Zero Startup Fees</h3>
+                    <p class="text-brand-gray text-xs">Our contingency model means we only get paid when you collect revenue.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section (Generalized) -->
+    <section id="expertise" class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <span class="text-brand-accent font-bold uppercase tracking-wider text-xs bg-blue-50/50 backdrop-blur border border-blue-100 px-3 py-1 rounded-full">Technical Expertise</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-brand-black mt-6 mb-6 leading-tight">Complex Claims? <br> Consider Them Solved.</h2>
+                    <p class="text-brand-gray text-lg mb-8 leading-relaxed">
+                        Generalist billers struggle with high-acuity and procedural nuances. We specialize in the complex logic required for multi-specialty practices.
+                    </p>
+                    
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white/60 border border-white flex items-center justify-center shadow-sm text-green-500 shrink-0 backdrop-blur-sm">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <strong class="text-brand-dark block text-lg font-display">Advanced Coding Logic</strong>
+                                <span class="text-brand-gray">Expertise in time-based coding, prolonged services, and high-complexity E&M levels.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white/60 border border-white flex items-center justify-center shadow-sm text-green-500 shrink-0 backdrop-blur-sm">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <strong class="text-brand-dark block text-lg font-display">Bundling & Modifiers</strong>
+                                <span class="text-brand-gray">We navigate NCCI edits and payer-specific bundling rules to prevent frontend rejections.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white/60 border border-white flex items-center justify-center shadow-sm text-green-500 shrink-0 backdrop-blur-sm">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <strong class="text-brand-dark block text-lg font-display">Provider Documentation Feedback</strong>
+                                <span class="text-brand-gray">We don't just code; we educate your providers on documentation gaps that cause revenue leakage.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Visual Element -->
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <div class="relative">
+                        <!-- Glass Card -->
+                        <div class="bg-white/60 backdrop-blur-xl p-8 rounded-3xl border border-white/60 shadow-2xl relative z-10">
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h4 class="font-bold text-brand-black">Claim Status Audit</h4>
+                                    <p class="text-xs text-gray-500">Live Dashboard View</p>
+                                </div>
+                                <span class="flex h-3 w-3 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                            </div>
+                            
+                            <!-- Mock Data Rows -->
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl shadow-sm border border-white/50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center"><i class="fa-solid fa-file-medical"></i></div>
+                                        <div>
+                                            <div class="text-sm font-bold text-brand-dark">Claim #49201</div>
+                                            <div class="text-xs text-gray-400">Cardiology • Level 5</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded">Paid</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl shadow-sm border border-white/50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-500 flex items-center justify-center"><i class="fa-solid fa-user-doctor"></i></div>
+                                        <div>
+                                            <div class="text-sm font-bold text-brand-dark">Claim #49202</div>
+                                            <div class="text-xs text-gray-400">Orthopedics • Surgery</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded">Paid</span>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 bg-white/80 rounded-xl shadow-sm border border-white/50 ring-2 ring-red-50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                        <div>
+                                            <div class="text-sm font-bold text-brand-dark">Claim #49203</div>
+                                            <div class="text-xs text-gray-400">Internal Med • Code Mismatch</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-1 bg-red-50 text-red-600 text-xs font-bold rounded">Fixed by Amora</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Background decoration behind card -->
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-accent rounded-full opacity-20 blur-3xl animate-float"></div>
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500 rounded-full opacity-20 blur-3xl animate-float" style="animation-delay: 2s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <h2 class="font-display text-4xl font-bold text-brand-black mb-4">End-to-End Revenue Cycle</h2>
+                <p class="text-brand-gray text-lg">A seamless workflow from documentation intake to payment posting.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                <!-- Service 1 -->
+                <div class="group p-8 rounded-3xl bg-white/60 backdrop-blur-md border border-white/60 shadow-sm hover:bg-white hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-lg font-bold text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">1</div>
+                    <h3 class="font-display text-xl font-bold text-brand-dark mb-3">Intake & Audit</h3>
+                    <p class="text-brand-gray leading-relaxed">We connect securely to your EHR. Our team reviews clinical notes for completeness, ensuring every billable service is captured before coding begins.</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="group p-8 rounded-3xl bg-white/60 backdrop-blur-md border border-white/60 shadow-sm hover:bg-white hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-lg font-bold text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">2</div>
+                    <h3 class="font-display text-xl font-bold text-brand-dark mb-3">Precision Medical Coding</h3>
+                    <p class="text-brand-gray leading-relaxed">Certified coders (AAPC/AHIMA) apply appropriate CPT and ICD-10 codes. We utilize a dual-layer review process to ensure compliance and accuracy.</p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="group p-8 rounded-3xl bg-white/60 backdrop-blur-md border border-white/60 shadow-sm hover:bg-white hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-lg font-bold text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">3</div>
+                    <h3 class="font-display text-xl font-bold text-brand-dark mb-3">Claims Management</h3>
+                    <p class="text-brand-gray leading-relaxed">Claims are scrubbed for errors and submitted electronically. We track acceptance status in real-time, correcting clearinghouse rejections within 24 hours.</p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="group p-8 rounded-3xl bg-white/60 backdrop-blur-md border border-white/60 shadow-sm hover:bg-white hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-lg font-bold text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">4</div>
+                    <h3 class="font-display text-xl font-bold text-brand-dark mb-3">AR & Denial Recovery</h3>
+                    <p class="text-brand-gray leading-relaxed">We aggressively pursue unpaid claims aged over 30 days. Our team drafts clinical appeals for medical necessity denials to recover lost revenue.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Gemini AI Tools -->
+    <section id="ai-tools" class="py-24 bg-brand-black relative overflow-hidden text-white" x-data="aiTools()">
+        <!-- Background elements -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-blue-600/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-1/3 h-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold tracking-wider uppercase mb-4">Powered by Gemini AI</span>
+                <h2 class="font-display text-4xl font-bold mb-4">Experience Our Technology ✨</h2>
+                <p class="text-gray-400 text-lg">Try our advanced AI tools specifically trained for medical billing scenarios. These models assist our human experts in delivering 99% accuracy.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                
+                <!-- Tool 1: Appeal Generator -->
+                <div class="bg-gray-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col h-full hover:border-blue-500/30 transition-colors">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">Appeal Letter Generator</h3>
+                            <p class="text-sm text-gray-500">Drafts formal appeals for denied claims instantly.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Denial Reason / Scenario</label>
+                            <textarea x-model="appealInput" placeholder="E.g. Claim denied for medical necessity. Patient presented with acute respiratory failure requiring immediate intubation..." class="w-full bg-black/30 border border-white/10 rounded-lg p-4 text-sm text-gray-200 focus:outline-none focus:border-blue-500 transition-colors h-32 resize-none"></textarea>
+                        </div>
+                        
+                        <div x-show="appealOutput" class="bg-blue-900/20 border border-blue-500/20 rounded-lg p-4 text-sm text-gray-300 animate-fade-in">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-blue-400 uppercase">AI Generated Draft</span>
+                                <div class="flex gap-3">
+                                    <button @click="navigator.clipboard.writeText(appealOutput)" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copy to Clipboard">
+                                        <i class="fa-regular fa-copy"></i> Copy
+                                    </button>
+                                    <button @click="downloadFile('appeal-draft.txt', appealOutput)" class="text-xs text-gray-500 hover:text-white transition-colors" title="Download Text File">
+                                        <i class="fa-solid fa-download"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ai-output whitespace-pre-line" x-html="formatOutput(appealOutput)"></div>
+                        </div>
+
+                        <div x-show="activeTool === 'appeal' && error" class="text-red-400 text-sm" x-text="error"></div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-white/5">
+                        <button @click="generateAppeal()" :disabled="loading || !appealInput" class="w-full bg-white text-brand-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                            <span x-show="!loading || activeTool !== 'appeal'">Generate Appeal Letter</span>
+                            <span x-show="loading && activeTool === 'appeal'"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing...</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tool 2: Clinical Coding Assistant -->
+                <div class="bg-gray-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col h-full hover:border-purple-500/30 transition-colors">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">Clinical Coding Assistant</h3>
+                            <p class="text-sm text-gray-500">Suggests CPT/ICD-10 codes from clinical notes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-grow space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Clinical Note Snippet</label>
+                            <textarea x-model="codingInput" placeholder="E.g. 45 min critical care time. Central line placed in right internal jugular vein. Patient intubated for airway protection..." class="w-full bg-black/30 border border-white/10 rounded-lg p-4 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition-colors h-32 resize-none"></textarea>
+                        </div>
+                        
+                        <div x-show="codingOutput" class="bg-purple-900/20 border border-purple-500/20 rounded-lg p-4 text-sm text-gray-300 animate-fade-in">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-purple-400 uppercase">AI Suggestions</span>
+                                <div class="flex gap-3">
+                                    <button @click="navigator.clipboard.writeText(codingOutput)" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copy to Clipboard">
+                                        <i class="fa-regular fa-copy"></i> Copy
+                                    </button>
+                                    <button @click="downloadFile('coding-suggestions.txt', codingOutput)" class="text-xs text-gray-500 hover:text-white transition-colors" title="Download Text File">
+                                        <i class="fa-solid fa-download"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ai-output whitespace-pre-line" x-html="formatOutput(codingOutput)"></div>
+                        </div>
+
+                         <div x-show="activeTool === 'coding' && error" class="text-red-400 text-sm" x-text="error"></div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-white/5">
+                        <button @click="generateCodes()" :disabled="loading || !codingInput" class="w-full bg-white text-brand-black font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                            <span x-show="!loading || activeTool !== 'coding'">Suggest Codes</span>
+                            <span x-show="loading && activeTool === 'coding'"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing...</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="reviews" class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="font-display text-3xl font-bold text-brand-black text-center mb-16">Trusted by Medical Leaders</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-white/50 hover:shadow-lg transition-shadow">
+                    <div class="flex text-yellow-400 mb-4 text-xs gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-gray mb-6 text-sm italic leading-relaxed">"Our previous biller was missing shared visits consistently. Amora's audit found unbilled revenue in the first month. Their understanding of complex coding rules is unmatched."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-black text-white rounded-full flex items-center justify-center font-bold text-xs">SJ</div>
+                        <div>
+                            <div class="font-bold text-brand-black text-sm">Dr. Sarah Jenkins</div>
+                            <div class="text-xs text-gray-500">Medical Director (Ohio)</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-white/50 hover:shadow-lg transition-shadow">
+                    <div class="flex text-yellow-400 mb-4 text-xs gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-gray mb-6 text-sm italic leading-relaxed">"I was skeptical about offshore at first, but their team in Bengaluru is sharper than the local agency we used. The dashboards they send every Friday are fantastic."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-black text-white rounded-full flex items-center justify-center font-bold text-xs">JT</div>
+                        <div>
+                            <div class="font-bold text-brand-black text-sm">James Thompson</div>
+                            <div class="text-xs text-gray-500">Practice Administrator (Texas)</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-sm border border-white/50 hover:shadow-lg transition-shadow">
+                    <div class="flex text-yellow-400 mb-4 text-xs gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-brand-gray mb-6 text-sm italic leading-relaxed">"Seamless onboarding. We handed over our Epic credentials and they were billing within 5 days. The denial rate has dropped significantly."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-black text-white rounded-full flex items-center justify-center font-bold text-xs">MC</div>
+                        <div>
+                            <div class="font-bold text-brand-black text-sm">Dr. Michael Chen</div>
+                            <div class="text-xs text-gray-500">Physician Group (Florida)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compliance Section (Dark Mode) -->
+    <section id="compliance" class="py-24 bg-brand-black text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-800 pb-8">
+                <div class="max-w-2xl">
+                    <h2 class="font-display text-3xl font-bold mb-4">Enterprise-Grade Security</h2>
+                    <p class="text-gray-400 text-lg">Your patient data is sacred. We treat it that way.</p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <button @click="modalOpen = true" class="text-white border-b border-brand-accent pb-1 text-sm hover:text-brand-accent transition-colors flex items-center gap-2">Request Security Whitepaper <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="bg-white/5 p-8 border border-white/10 rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-colors">
+                    <i class="fa-solid fa-lock text-brand-accent text-3xl mb-6"></i>
+                    <h4 class="font-bold text-lg mb-2">HIPAA Compliant</h4>
+                    <p class="text-sm text-gray-400">Physical and technical safeguards strictly enforced across our facility.</p>
+                </div>
+                <div class="bg-white/5 p-8 border border-white/10 rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-colors">
+                    <i class="fa-solid fa-file-contract text-brand-accent text-3xl mb-6"></i>
+                    <h4 class="font-bold text-lg mb-2">BAA Execution</h4>
+                    <p class="text-sm text-gray-400">We sign standard Business Associate Agreements with all US clients.</p>
+                </div>
+                <div class="bg-white/5 p-8 border border-white/10 rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-colors">
+                    <i class="fa-brands fa-aws text-brand-accent text-3xl mb-6"></i>
+                    <h4 class="font-bold text-lg mb-2">Encrypted Cloud</h4>
+                    <p class="text-sm text-gray-400">Data processed on secure AWS/Google Cloud instances. No local storage.</p>
+                </div>
+                <div class="bg-white/5 p-8 border border-white/10 rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-colors">
+                    <i class="fa-solid fa-users-viewfinder text-brand-accent text-3xl mb-6"></i>
+                    <h4 class="font-bold text-lg mb-2">Human-in-the-Loop</h4>
+                    <p class="text-sm text-gray-400">AI is used for efficiency, but humans make every final coding decision.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer & CTA -->
+    <footer id="contact" class="bg-brand-black text-white pt-24 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 pb-24 border-b border-gray-800">
+                <div>
+                    <h2 class="font-display text-4xl font-bold mb-6">Start Your Pilot</h2>
+                    <p class="text-gray-400 mb-8 leading-relaxed text-lg">
+                        Stop losing 10-15% of your revenue to poor documentation and lazy coding. Let us run a free audit of your last 50 claims.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 group cursor-pointer">
+                            <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-white transition-all">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 uppercase font-bold tracking-wider">Email Us</div>
+                                <div class="text-white font-medium">partnerships@amorahealthcare.com</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 uppercase font-bold tracking-wider">Global HQ</div>
+                                <div class="text-white font-medium">MG Road, Bengaluru, Karnataka, India</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Form -->
+                <div class="bg-white text-brand-dark p-8 rounded-3xl shadow-2xl">
+                    <form action="https://formspree.io/f/xbjnqkyv" method="POST" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-gray-500 mb-1">First Name</label>
+                                <input type="text" name="firstName" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:border-brand-black transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Last Name</label>
+                                <input type="text" name="lastName" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:border-brand-black transition-colors">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Work Email</label>
+                            <input type="email" name="email" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:border-brand-black transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Practice / Specialty</label>
+                            <input type="text" name="specialty" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-lg focus:outline-none focus:border-brand-black transition-colors">
+                        </div>
+                        <button type="submit" class="w-full bg-brand-black text-white font-bold py-4 rounded-lg hover:bg-gray-800 transition-colors shadow-lg">
+                            Request Audit
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="py-12 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <div class="mb-4 md:mb-0">
+                    &copy; 2024 Amora Healthcare Pvt Ltd. All rights reserved.
+                </div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                    <a href="#" class="hover:text-white transition-colors">Security</a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div x-show="modalOpen" class="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" x-cloak>
+        <div class="flex items-center justify-center min-h-screen px-4 text-center sm:block sm:p-0">
+            <div x-show="modalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-brand-black/80 backdrop-blur-sm transition-opacity" aria-hidden="true" @click="modalOpen = false"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div x-show="modalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                <div class="bg-white px-8 pt-8 pb-6">
+                    <div class="flex justify-between items-center mb-6">
+                         <h3 class="text-2xl leading-6 font-bold text-brand-black font-display" id="modal-title">Book Discovery Call</h3>
+                         <button @click="modalOpen = false" class="text-gray-400 hover:text-brand-black"><i class="fa-solid fa-xmark text-xl"></i></button>
+                    </div>
+                   
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500 mb-6">Enter your details and our team will reach out to schedule a 15-minute introductory Zoom call.</p>
+                        <form class="space-y-4">
+                            <!-- MODIFIED: Inputs aligned in a grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <input type="text" placeholder="Full Name" class="w-full border border-gray-200 rounded-lg p-3 focus:border-brand-black focus:outline-none transition-colors">
+                                <input type="email" placeholder="Work Email" class="w-full border border-gray-200 rounded-lg p-3 focus:border-brand-black focus:outline-none transition-colors">
+                            </div>
+                            <input type="tel" placeholder="Phone Number" class="w-full border border-gray-200 rounded-lg p-3 focus:border-brand-black focus:outline-none transition-colors">
+                            <button type="button" @click="modalOpen = false" class="w-full rounded-lg border border-transparent shadow-md px-4 py-4 bg-brand-black text-base font-bold text-white hover:bg-gray-800 focus:outline-none sm:text-sm transition-transform hover:-translate-y-0.5">
+                                Submit Request
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Study Modal (Generalized) -->
+    <div x-show="caseStudyOpen" class="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" x-cloak>
+        <div class="flex items-center justify-center min-h-screen px-4 text-center sm:block sm:p-0">
+            <div x-show="caseStudyOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-brand-black/90 backdrop-blur-md transition-opacity" aria-hidden="true" @click="caseStudyOpen = false"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div x-show="caseStudyOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full">
+                <div class="bg-white p-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <span class="text-xs font-bold text-brand-accent uppercase tracking-wider bg-blue-50 px-2 py-1 rounded">Case Study #2024-03</span>
+                            <h2 class="text-3xl font-bold text-brand-black mt-3 font-display">Multi-Specialty Group Turnaround</h2>
+                        </div>
+                        <button @click="caseStudyOpen = false" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-2xl"></i></button>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-6 mb-10 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600 font-display">+14%</div>
+                            <div class="text-xs text-gray-500 font-bold uppercase tracking-wide mt-1">Revenue Increase</div>
+                        </div>
+                        <div class="text-center border-l border-gray-200">
+                            <div class="text-2xl font-bold text-brand-black font-display">22 Days</div>
+                            <div class="text-xs text-gray-500 font-bold uppercase tracking-wide mt-1">Avg. AR Days</div>
+                        </div>
+                        <div class="text-center border-l border-gray-200">
+                            <div class="text-2xl font-bold text-brand-black font-display">99.1%</div>
+                            <div class="text-xs text-gray-500 font-bold uppercase tracking-wide mt-1">Clean Claim Rate</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-base text-brand-gray leading-relaxed mb-8">
+                        <p><strong>The Challenge:</strong> A 15-provider multi-specialty group (Cardiology & Internal Med) was facing an 18% denial rate. Their in-house billers were struggling to keep up with the volume of high-acuity claims, often downcoding encounters to avoid complex audits.</p>
+                        <p><strong>The Solution:</strong> Amora Healthcare took over the RCM process. We implemented a double-check audit system for all E&M codes and Procedure codes. We identified that 40% of their visits were under-coded based on the documentation provided.</p>
+                        <p><strong>The Result:</strong> Within 90 days, monthly collections increased by $45,000 without seeing a single additional patient. Denial rate dropped to 2.8%.</p>
+                    </div>
+
+                    <button @click="caseStudyOpen = false; modalOpen = true" class="w-full bg-brand-black text-white font-bold py-4 rounded-xl hover:bg-gray-800 transition-colors shadow-lg">
+                        Discuss Your Practice
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+
+        // Defined globally to prevent ReferenceErrors in x-data="aiTools()"
+        function aiTools() {
+            return {
+                activeTool: '', 
+                appealInput: '',
+                appealOutput: '',
+                codingInput: '',
+                codingOutput: '',
+                loading: false,
+                error: '',
+                
+                formatOutput(text) {
+                    if (!text) return '';
+                    // Simple formatter for Gemini text
+                    return text
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/^\* /gm, '• ');
+                },
+
+                downloadFile(filename, text) {
+                    // Clean up the text to match the "preview" look (strip Markdown)
+                    let cleanText = text || '';
+                    
+                    // Remove bold markers (**text** -> text)
+                    cleanText = cleanText.replace(/\*\*(.*?)\*\*/g, '$1');
+                    
+                    // Convert markdown bullets (* ) to real bullets (• )
+                    cleanText = cleanText.replace(/^\* /gm, '• ');
+
+                    const element = document.createElement('a');
+                    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(cleanText));
+                    element.setAttribute('download', filename);
+                    element.style.display = 'none';
+                    document.body.appendChild(element);
+                    element.click();
+                    document.body.removeChild(element);
+                },
+
+                async callGemini(prompt) {
+                    this.loading = true;
+                    this.error = '';
+                    const apiKey = ""; // Runtime injection
+                    
+                    try {
+                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                contents: [{ parts: [{ text: prompt }] }]
+                            })
+                        });
+
+                        if (!response.ok) throw new Error('Failed to fetch response');
+                        const data = await response.json();
+                        return data.candidates[0].content.parts[0].text;
+                    } catch (e) {
+                        console.error(e);
+                        this.error = "Connection error. Please try again.";
+                        return null;
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                async generateAppeal() {
+                    if (!this.appealInput) return;
+                    this.activeTool = 'appeal';
+                    this.appealOutput = '';
+                    
+                    const prompt = `You are an expert Medical Biller for Amora Healthcare. 
+                    Task: Draft a formal, professional appeal letter for a denied medical claim.
+                    Denial Context: "${this.appealInput}"
+                    Requirements: Use professional tone, standard formatting, and keep it under 300 words. Leave placeholders for [Patient Name], [Date], [Policy Number].`;
+
+                    const result = await this.callGemini(prompt);
+                    if (result) this.appealOutput = result;
+                },
+
+                async generateCodes() {
+                    if (!this.codingInput) return;
+                    this.activeTool = 'coding';
+                    this.codingOutput = '';
+
+                    const prompt = `You are a Certified Professional Coder (CPC) for Amora Healthcare.
+                    Task: Analyze this clinical note snippet and suggest appropriate CPT and ICD-10 codes with brief reasoning.
+                    Clinical Note: "${this.codingInput}"
+                    Requirements: List the codes clearly. Mention any bundling warnings (NCCI edits). Add a disclaimer that this is an AI suggestion.`;
+
+                    const result = await this.callGemini(prompt);
+                    if (result) this.codingOutput = result;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
