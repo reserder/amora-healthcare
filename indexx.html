@@ -2,11 +2,11 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Amora Healthcare | Enterprise RCM & Medical Billing</title>
     <meta name="description" content="Premium offshore RCM for US Medical Groups. Audit-proof coding, 3% collections model, and HIPAA-compliant infrastructure.">
     
-    <!-- Google Fonts: Plus Jakarta Sans for a modern tech feel + Inter -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -17,11 +17,11 @@
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (Pinned Version for Stability) -->
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
     
     <!-- Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
 
     <!-- Tailwind Config -->
     <script>
@@ -78,20 +78,44 @@
     </script>
 
     <style>
-        body { font-feature-settings: "cv11", "ss01"; }
+        /* SAFARI & CROSS-BROWSER COMPATIBILITY FIXES */
+        body { 
+            font-feature-settings: "cv11", "ss01"; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Glassmorphism Fixes for Safari */
         .glass-nav {
             background: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: blur(20px); /* Essential for Safari */
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         }
+
+        .backdrop-blur-md {
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+        }
+        
+        .backdrop-blur-xl {
+            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px);
+        }
+
+        /* Text Gradient Fixes for Safari */
         .text-gradient {
             background: linear-gradient(to right, #0f172a, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; /* Essential for Safari */
+            background-clip: text;
+            -webkit-text-fill-color: transparent; /* Essential for Safari */
+            color: transparent;
         }
-        /* Glassmorphism Card Style */
+
+        /* Card Styles */
         .bento-card {
             background: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
@@ -103,9 +127,9 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
             border-color: rgba(59, 130, 246, 0.3);
         }
+
         [x-cloak] { display: none !important; }
         
-        /* Markdown-like output styling */
         .ai-output p { margin-bottom: 0.75rem; }
         .ai-output ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
         .ai-output strong { font-weight: 600; color: #0f172a; }
@@ -123,43 +147,62 @@
     </div>
 
     <!-- Navigation -->
-    <header class="fixed w-full top-0 z-50 glass-nav transition-all duration-300" x-data="{ mobileMenuOpen: false }">
-        <div class="container mx-auto px-6 h-20 flex items-center justify-between gap-8">
+    <header class="fixed w-full top-0 z-50 transition-all duration-300" x-data="{ mobileMenuOpen: false, scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+        <!-- Glass Background -->
+        <div class="absolute inset-0 bg-white/80 glass-nav border-b border-white/50 transition-all duration-300" :class="scrolled ? 'shadow-sm bg-white/95' : ''"></div>
+
+        <div class="container mx-auto px-6 h-24 flex items-center justify-between relative z-10">
             <!-- Logo -->
-            <a href="#" class="group min-w-max">
-                <span class="font-display font-extrabold text-2xl tracking-tight text-brand-black">
+            <a href="#" class="group min-w-max flex items-center gap-3">
+                <div class="w-10 h-10 bg-brand-black text-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-black to-gray-700"></div>
+                    <span class="relative font-display font-bold text-xl">A</span>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight text-brand-black">
                     Amora<span class="font-medium text-brand-gray group-hover:text-brand-accent transition-colors">Healthcare</span>
                 </span>
             </a>
 
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-gray">
-                <a href="#expertise" class="hover:text-brand-black transition-colors relative group">
-                    Expertise
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#services" class="hover:text-brand-black transition-colors relative group">
-                    Services
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#compliance" class="hover:text-brand-black transition-colors relative group">
-                    Compliance
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all group-hover:w-full"></span>
-                </a>
-                <button @click="modalOpen = true" class="text-brand-black hover:text-brand-accent transition-colors">Contact</button>
-                <button @click="modalOpen = true" class="bg-brand-black text-white px-6 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-semibold shadow-lg shadow-brand-black/20 hover:shadow-brand-black/30 hover:-translate-y-0.5">
-                    Book Discovery Call
-                </button>
+            <!-- Desktop Nav - Modern Pill Design -->
+            <nav class="hidden lg:flex items-center">
+                
+                <!-- Navigation Links Pill -->
+                <div class="flex items-center bg-gray-100/50 rounded-full p-1.5 border border-gray-200/50 mr-6 backdrop-blur-md">
+                    <a href="#expertise" class="px-5 py-2 text-sm font-medium text-gray-600 hover:text-brand-black hover:bg-white hover:shadow-sm rounded-full transition-all duration-200">Expertise</a>
+                    <a href="#services" class="px-5 py-2 text-sm font-medium text-gray-600 hover:text-brand-black hover:bg-white hover:shadow-sm rounded-full transition-all duration-200">Services</a>
+                    <a href="#compliance" class="px-5 py-2 text-sm font-medium text-gray-600 hover:text-brand-black hover:bg-white hover:shadow-sm rounded-full transition-all duration-200">Compliance</a>
+                </div>
+
+                <!-- Action Area -->
+                <div class="flex items-center gap-4 pl-2">
+                    <!-- Gemini AI Button -->
+                    <a href="#ai-tools" class="hidden xl:flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-50/80 text-blue-600 text-xs font-bold uppercase tracking-wide border border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 group/ai shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                        <i class="fa-solid fa-wand-magic-sparkles text-blue-500 group-hover/ai:text-white transition-colors group-hover/ai:rotate-12"></i>
+                        <span>Try AI Coding</span>
+                    </a>
+
+                    <div class="h-8 w-px bg-gray-200 hidden xl:block"></div>
+
+                    <button @click="modalOpen = true" class="text-sm font-semibold text-brand-dark hover:text-brand-accent transition-colors hidden xl:block">Contact</button>
+                    
+                    <button @click="modalOpen = true" class="group relative px-6 py-3 bg-brand-black text-white text-sm font-bold rounded-full overflow-hidden shadow-lg shadow-brand-black/20 hover:shadow-brand-black/30 transition-all duration-300 hover:scale-[1.02]">
+                        <div class="absolute top-0 left-0 w-[150%] h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                        <span class="relative flex items-center gap-2">
+                            Book Discovery Call
+                            <i class="fa-solid fa-arrow-right text-brand-accent group-hover:text-white group-hover:translate-x-1 transition-all duration-300"></i>
+                        </span>
+                    </button>
+                </div>
             </nav>
 
             <!-- Mobile Menu Toggle -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-brand-black focus:outline-none p-2">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-brand-black focus:outline-none p-2 bg-gray-50 rounded-lg">
                 <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
             </button>
         </div>
 
         <!-- Mobile Nav -->
-        <div x-show="mobileMenuOpen" x-collapse x-cloak class="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 absolute w-full shadow-2xl">
+        <div x-show="mobileMenuOpen" x-collapse x-cloak class="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 absolute w-full shadow-2xl">
             <div class="flex flex-col p-6 space-y-4">
                 <a href="#expertise" @click="mobileMenuOpen = false" class="text-brand-dark font-medium text-lg">Expertise</a>
                 <a href="#services" @click="mobileMenuOpen = false" class="text-brand-dark font-medium text-lg">Services</a>
@@ -188,11 +231,10 @@
                         Onboarding New Practices
                     </div>
 
-                    <!-- New Enticing AI Button -->
-                    <a href="#ai-tools" class="group inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wide shadow-sm hover:shadow-md hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer">
-                        <i class="fa-solid fa-wand-magic-sparkles text-blue-500 group-hover:text-white transition-colors group-hover:rotate-12"></i>
+                    <!-- New Enticing AI Button (Mobile Visible) -->
+                    <a href="#ai-tools" class="xl:hidden inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wide shadow-sm hover:shadow-md hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer">
+                        <i class="fa-solid fa-wand-magic-sparkles text-blue-500"></i>
                         <span>Try Gemini AI Coding</span>
-                        <i class="fa-solid fa-arrow-right opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></i>
                     </a>
                 </div>
                 
